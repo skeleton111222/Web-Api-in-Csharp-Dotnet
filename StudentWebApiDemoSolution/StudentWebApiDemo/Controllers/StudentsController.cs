@@ -47,7 +47,39 @@ namespace StudentWebApiDemo.Controllers
         {
             return _students;
         }
-
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+           var student =_students.FirstOrDefault(s => s.Id == id);
+            if (student ==null)
+            {
+                return NotFound($"Student with id {id} not found");
+            }
+            return Ok(student);
+        }
+        [HttpPut("{id}")]
+        public IActionResult PutById(int id, Student updateStudent)
+        {
+            var student = _students.FirstOrDefault(s => s.Id == id);
+            if (student == null)
+            {
+                return NotFound($"Student with id {id} not found");
+            }
+            student.Name = updateStudent.Name;
+            student.Age = updateStudent.Age;
+            return Ok(student);
+        }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var student = _students.FirstOrDefault(s => s.Id == id);
+            if (student == null)
+            {
+                return NotFound($"Student with id {id} not found");
+            }
+            _students.Remove(student);
+            return Ok(student);
+        }
         [HttpPost]
         public IActionResult Post([FromBody] Student student)
         {
