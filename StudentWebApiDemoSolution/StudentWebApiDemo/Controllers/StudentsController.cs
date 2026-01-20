@@ -87,5 +87,11 @@ namespace StudentWebApiDemo.Controllers
 
             return Ok(student);
         }
+        [HttpGet("search")]
+        public IActionResult Search([FromQuery] string name)
+        {
+            var result = _students.Where(s=> s.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+            return Ok(result);
+        }
     }
 }
